@@ -24,6 +24,7 @@ public class PublicController {
 		//Cliente cliente = new Cliente();
 		//cliente.setNome("Lucas");
 		model.addAttribute("cliente", new Cliente());
+		ControllerHelper.setEditMode(model, true);
 		return "cliente-cadastro";
 	}
 	
