@@ -44,7 +44,8 @@
 					
 					<label for="telefone">Telefone: </label><br/>
 					<input type="text" id="telefone" name="telefone" placeholder="Telefone..." th:field="*{telefone}"
-					th:appendclass="${#fields.hasErrors('telefone')} ? 'inputError' : ''"/>
+					th:appendclass="${#fields.hasErrors('telefone')} ? 'inputError' : ''"
+					onkeydown="return isNumberKey(event);"/>
 					<br/><br>
 					<div id="mensagemDeErro" th:if="${#fields.hasErrors('telefone')}">
 						<span th:errors="*{telefone}"></span>
@@ -52,7 +53,8 @@
 					
 					<label for="cep">CEP: </label><br/>
 					<input type="text" id="cep" name="cep" placeholder="CEP..." th:field="*{cep}"
-					th:appendclass="${#fields.hasErrors('cep')} ? 'inputError' : ''"/>
+					th:appendclass="${#fields.hasErrors('cep')} ? 'inputError' : ''"
+					onkeydown="return isNumberKey(event);"/>
 					<br/><br/> 
 					<div id="mensagemDeErro" th:if="${#fields.hasErrors('cep')}">
 						<span th:errors="*{cep}"></span>
