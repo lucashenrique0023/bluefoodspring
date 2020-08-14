@@ -18,6 +18,13 @@ public class ClienteService {
 			throw new ValidationException("O e-mail esta duplicado");
 		};
 		
+		if (cliente.getId() != null) {
+			Cliente clienteDB = clienteRepository.findById(cliente.getId()).orElseThrow();
+			cliente.setSenha(clienteDB.getSenha());
+		} else {
+			//cliente.encryptPassword();
+		}
+		
 		clienteRepository.save(cliente);
 	}
 	
