@@ -46,8 +46,8 @@ public class Usuario implements Serializable {
 	@Column(length = 11, nullable = false)
 	private String telefone;
 	
-	/*
-	 * public void encryptPassword() { this.senha = StringUtils.encrypt(this.senha);
-	 * }
-	 */
+	
+	  public void encryptPassword() { this.senha = StringUtils.encrypt(this.senha);
+	  }
+	 
 }

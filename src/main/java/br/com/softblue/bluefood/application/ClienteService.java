@@ -22,7 +22,7 @@ public class ClienteService {
 			Cliente clienteDB = clienteRepository.findById(cliente.getId()).orElseThrow();
 			cliente.setSenha(clienteDB.getSenha());
 		} else {
-			//cliente.encryptPassword();
+			cliente.encryptPassword();
 		}
 		
 		clienteRepository.save(cliente);

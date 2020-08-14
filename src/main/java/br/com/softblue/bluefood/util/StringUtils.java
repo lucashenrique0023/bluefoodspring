@@ -13,13 +13,14 @@ public class StringUtils {
 		return str.trim().length() == 0;
 	}
 	
-	/*
-	 * public static String encrypt(String rawString) { if (isEmpty(rawString)) {
-	 * return null; }
-	 * 
-	 * PasswordEncoder enconder =
-	 * PasswordEncoderFactories.createDelegatingPasswordEncoder(); return
-	 * enconder.encode(rawString); }
-	 */
+	
+	  public static String encrypt(String rawString) { if (isEmpty(rawString)) {
+	  return null; }
+	  
+	  //PasswordEncoder enconder = PasswordEncoderFactories.createDelegatingPasswordEncoder(); return
+	  //enconder.encode(rawString); 
+	  	return rawString;
+	  }
+	 
 
 }
