@@ -5,12 +5,17 @@ import org.springframework.stereotype.Service;
 
 import br.com.softblue.bluefood.domain.cliente.Cliente;
 import br.com.softblue.bluefood.domain.cliente.ClienteRepository;
+import br.com.softblue.bluefood.domain.restaurante.Restaurante;
+import br.com.softblue.bluefood.domain.restaurante.RestauranteRepository;
 
 @Service
 public class ClienteService {
 
 	@Autowired
 	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private RestauranteRepository restauranteRepository;
 	
 	public void saveCliente(Cliente cliente) throws ValidationException {
 		
@@ -29,6 +34,12 @@ public class ClienteService {
 	}
 	
 	private boolean validateEmail(String email, Integer id) {
+		Restaurante restaurante = restauranteRepository.findByEmail(email);
+		
+		if (restaurante != null) {
+			return false;
+		}
+		
 		Cliente cliente = clienteRepository.findByEmail(email);
 		
 		if (cliente != null) {

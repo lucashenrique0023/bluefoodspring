@@ -80,6 +80,7 @@ public class PublicController {
 				errors.rejectValue("email", null, e.getMessage());
 			}	
 		}
+		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
 		ControllerHelper.setEditMode(model, false);
 		return "restaurante-cadastro";
 	}
