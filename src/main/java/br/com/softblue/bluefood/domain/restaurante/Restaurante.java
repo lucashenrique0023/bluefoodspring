@@ -17,6 +17,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import br.com.softblue.bluefood.domain.usuario.Usuario;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -31,12 +33,15 @@ import lombok.ToString;
 public class Restaurante extends Usuario {
 	
 	@NotBlank(message = "O CNPJ nao pode ser vazio")
-	@Pattern(regexp = "[0-9]{14}", message = "O CNPJ possui formato invalido")
+	@Pattern(regexp = "[0-9]{11}", message = "O CNPJ possui formato invalido")
 	@Column(length = 11, nullable = false)
 	private String cnpj;
 	
 	@Size(max = 80)
 	private String logotipo;
+	
+	
+	private transient MultipartFile logotipoFile;
 	
 	@NotNull(message = "A taxa de entrega nao pode ser vazia")
 	@Min(0)
@@ -59,5 +64,14 @@ public class Restaurante extends Usuario {
 	@Size(min = 1, message = "O restaurante precisa ter pelo menos uma categoria")
 	@ToString.Exclude
 	private Set<CategoriaRestaurante> categorias = new HashSet<CategoriaRestaurante>(0);
+	
+	public void setLogotipoFileName() {
+		if (getId() == null) {
+			throw new IllegalStateException("E preciso primeiro gravar o registro");
+		}
+		
+		//TODO: Trocar forma de ler a extensao
+		this.logotipo = String.format("%04d-logo.%s", getId(), ".png");
+	}
 	
 }

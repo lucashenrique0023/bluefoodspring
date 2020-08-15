@@ -1,10 +1,12 @@
 package br.com.softblue.bluefood.application;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import br.com.softblue.bluefood.domain.restaurante.Restaurante;
 import br.com.softblue.bluefood.domain.restaurante.RestauranteRepository;
 
+@Service
 public class RestauranteService {
 
 	@Autowired
@@ -14,9 +16,17 @@ public class RestauranteService {
 		
 		if (!validateEmail(restaurante.getEmail(), restaurante.getId())) {
 			throw new ValidationException("O e-mail esta duplicado");
-		};
+		}
 		
-		restauranteRepository.save(restaurante);
+		if (restaurante.getId() != null) {
+			Restaurante restauranteDB = restauranteRepository.findById(restaurante.getId()).orElseThrow();
+			restaurante.setSenha(restauranteDB.getSenha());
+		} else {
+			restaurante.encryptPassword();
+			restaurante = restauranteRepository.save(restaurante); // Retorna instancia gerenciada(alteracoes refletem db)
+			restaurante.setLogotipoFileName();
+			//TODO: Upload!
+		}	
 	}
 	
 	private boolean validateEmail(String email, Integer id) {
