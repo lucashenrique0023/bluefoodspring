@@ -1,5 +1,7 @@
 package br.com.softblue.bluefood.infrastructure.web.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import br.com.softblue.bluefood.application.ClienteService;
 import br.com.softblue.bluefood.application.ValidationException;
 import br.com.softblue.bluefood.domain.cliente.Cliente;
+import br.com.softblue.bluefood.domain.restaurante.CategoriaRestauranteRepository;
 import br.com.softblue.bluefood.domain.restaurante.Restaurante;
 
 @Controller
@@ -22,6 +25,9 @@ public class PublicController {
 	
 	@Autowired
 	private ClienteService clienteService;
+	
+	@Autowired
+	private CategoriaRestauranteRepository categoriaRestauranteRepository;
 	
 	@GetMapping("/cliente/new")
 	public String newCliente(Model model) {
@@ -36,10 +42,9 @@ public class PublicController {
 	@GetMapping("/restaurante/new")
 	public String newRestaurante(Model model) {
 		
-		//Cliente cliente = new Cliente();
-		//cliente.setNome("Lucas");
 		model.addAttribute("restaurante", new Restaurante());
 		ControllerHelper.setEditMode(model, false);
+		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
 		return "restaurante-cadastro";
 	}
 	

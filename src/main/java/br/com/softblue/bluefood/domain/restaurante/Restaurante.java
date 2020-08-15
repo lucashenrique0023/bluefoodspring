@@ -21,6 +21,7 @@ import br.com.softblue.bluefood.domain.usuario.Usuario;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
@@ -45,7 +46,7 @@ public class Restaurante extends Usuario {
 	@NotNull(message = "O tempo de entrega nao pode ser vazio")
 	@Min(0)
 	@Max(120)
-	private Integer tempoEntregaBase;
+	private Integer tempoEntrega;
 	
 	// Dono do relacionamento Many To Many
 	// Restaurante consegue chegar em categorias
@@ -55,6 +56,8 @@ public class Restaurante extends Usuario {
 			joinColumns = @JoinColumn(name = "restaurante_id"),
 			inverseJoinColumns = @JoinColumn(name = "categoria_restaurante_id")
 	)
+	@Size(min = 1, message = "O restaurante precisa ter pelo menos uma categoria")
+	@ToString.Exclude
 	private Set<CategoriaRestaurante> categorias = new HashSet<CategoriaRestaurante>(0);
 	
 }
