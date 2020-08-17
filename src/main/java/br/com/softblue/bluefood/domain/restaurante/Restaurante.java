@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -66,6 +67,10 @@ public class Restaurante extends Usuario {
 	@Size(min = 1, message = "O restaurante precisa ter pelo menos uma categoria")
 	@ToString.Exclude
 	private Set<CategoriaRestaurante> categorias = new HashSet<CategoriaRestaurante>(0);
+	
+	@OneToMany(mappedBy = "restaurante") // Nome do atributo dono do relacionamento na tabela itemCardapio.
+	private Set<ItemCardapio> itensCardapio = new HashSet<ItemCardapio>(0);
+	
 	
 	public void setLogotipoFileName() {
 		if (getId() == null) {

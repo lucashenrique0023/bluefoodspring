@@ -13,6 +13,8 @@ import br.com.softblue.bluefood.domain.cliente.Cliente;
 import br.com.softblue.bluefood.domain.cliente.ClienteRepository;
 import br.com.softblue.bluefood.domain.restaurante.CategoriaRestaurante;
 import br.com.softblue.bluefood.domain.restaurante.CategoriaRestauranteRepository;
+import br.com.softblue.bluefood.domain.restaurante.ItemCardapio;
+import br.com.softblue.bluefood.domain.restaurante.ItemCardapioRepository;
 import br.com.softblue.bluefood.domain.restaurante.Restaurante;
 import br.com.softblue.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.softblue.bluefood.util.StringUtils;
@@ -28,11 +30,15 @@ public class InsertDataForTesting {
 	
 	@Autowired
 	private CategoriaRestauranteRepository categoriaRestauranteRepository;
+	
+	@Autowired
+	private ItemCardapioRepository itemCardapioRepository;
 
 	@EventListener
 	public void onApplicationEvent(ContextRefreshedEvent event) {
 		clientes();
 		Restaurante[] restaurantes = restaurantes();
+		itensCardapio(restaurantes);
 	}
 	
 	private Restaurante[] restaurantes() {
@@ -142,5 +148,67 @@ public class InsertDataForTesting {
 		
 		Cliente[] array = new Cliente[clientes.size()];
 		return clientes.toArray(array);
+	}
+	
+	private void itensCardapio(Restaurante[] restaurantes) {
+		ItemCardapio ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Delicioso sanduiche com molho");
+		ic.setNome("Double Cheese Burger Special");
+		ic.setPreco(BigDecimal.valueOf(23.8));
+		ic.setRestaurante(restaurantes[0]);
+		ic.setDestaque(true);
+		ic.setImagem("0006-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Delicioso muito bom");
+		ic.setNome("Triple Cheese Burger");
+		ic.setPreco(BigDecimal.valueOf(27.8));
+		ic.setRestaurante(restaurantes[1]);
+		ic.setDestaque(false);
+		ic.setImagem("0001-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Terceiro Sanduiche");
+		ic.setNome("Esse e do bom");
+		ic.setPreco(BigDecimal.valueOf(21.30));
+		ic.setRestaurante(restaurantes[1]);
+		ic.setDestaque(false);
+		ic.setImagem("0003-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Pao com ovo");
+		ic.setNome("Padrao");
+		ic.setPreco(BigDecimal.valueOf(3.8));
+		ic.setRestaurante(restaurantes[2]);
+		ic.setDestaque(false);
+		ic.setImagem("0002-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Cheedar com oba");
+		ic.setNome("Cheedar Cheedar");
+		ic.setPreco(BigDecimal.valueOf(2.8));
+		ic.setRestaurante(restaurantes[3]);
+		ic.setDestaque(true);
+		ic.setImagem("0004-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Vegano");
+		ic.setNome("Vegano");
+		ic.setPreco(BigDecimal.valueOf(53.8));
+		ic.setRestaurante(restaurantes[4]);
+		ic.setDestaque(false);
+		ic.setImagem("0006-comida.png");
+		itemCardapioRepository.save(ic);
 	}
 }
