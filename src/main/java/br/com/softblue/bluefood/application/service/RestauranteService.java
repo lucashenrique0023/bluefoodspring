@@ -1,5 +1,6 @@
 package br.com.softblue.bluefood.application.service;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,9 +10,11 @@ import org.springframework.transaction.annotation.Transactional;
 import br.com.softblue.bluefood.domain.cliente.Cliente;
 import br.com.softblue.bluefood.domain.cliente.ClienteRepository;
 import br.com.softblue.bluefood.domain.restaurante.Restaurante;
+import br.com.softblue.bluefood.domain.restaurante.RestauranteComparator;
 import br.com.softblue.bluefood.domain.restaurante.RestauranteRepository;
 import br.com.softblue.bluefood.domain.restaurante.SearchFilter;
 import br.com.softblue.bluefood.domain.restaurante.SearchFilter.SearchType;
+import br.com.softblue.bluefood.util.SecurityUtils;
 
 @Service
 public class RestauranteService {
@@ -75,6 +78,21 @@ public class RestauranteService {
 		} else {
 			throw new IllegalStateException("Categoria de busca " + SearchType.Categoria + " nao suportada.");
 		}
+		
+		Iterator<Restaurante> it = restaurantes.iterator();
+		
+		while (it.hasNext()) {
+			Restaurante restaurante = it.next();
+			double taxaEntrega = restaurante.getTaxaEntrega().doubleValue();
+			
+			if (filter.isEntregaGratis() && taxaEntrega > 0
+					|| !filter.isEntregaGratis() && taxaEntrega == 0) {
+				it.remove();
+			}
+		}
+		
+		RestauranteComparator comparator = new RestauranteComparator(filter, SecurityUtils.loggedCliente().getCep());
+		restaurantes.sort(comparator);
 		
 		return restaurantes;
 	}
