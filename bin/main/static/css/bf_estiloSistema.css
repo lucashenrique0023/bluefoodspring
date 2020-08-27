@@ -63,6 +63,16 @@ img#imgLogotipoSistema
   vertical-align: middle;
 }
 
+img#imgRestauranteBusca
+{
+	height: 150px;
+}
+
+img#imgRestauranteOpcao
+{
+	height: 150px;
+}
+
 img#imgIconeUsuario
 {
   width: 100px;
