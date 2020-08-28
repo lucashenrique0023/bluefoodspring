@@ -163,6 +163,36 @@ public class InsertDataForTesting {
 		
 		ic = new ItemCardapio();
 		ic.setCategoria("Sanduiche");
+		ic.setDescricao("Sanduiche padrao");
+		ic.setNome("Pao Vegetariano");
+		ic.setPreco(BigDecimal.valueOf(23.8));
+		ic.setRestaurante(restaurantes[0]);
+		ic.setDestaque(false);
+		ic.setImagem("0007-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Bebida");
+		ic.setDescricao("Coca-Cola");
+		ic.setNome("Coca-Cola");
+		ic.setPreco(BigDecimal.valueOf(23.8));
+		ic.setRestaurante(restaurantes[0]);
+		ic.setDestaque(false);
+		ic.setImagem("0004-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Bebida");
+		ic.setDescricao("Suco natural e doce");
+		ic.setNome("Suco de Laranja");
+		ic.setPreco(BigDecimal.valueOf(23.8));
+		ic.setRestaurante(restaurantes[0]);
+		ic.setDestaque(false);
+		ic.setImagem("0005-comida.png");
+		itemCardapioRepository.save(ic);
+		
+		ic = new ItemCardapio();
+		ic.setCategoria("Sanduiche");
 		ic.setDescricao("Delicioso muito bom");
 		ic.setNome("Triple Cheese Burger");
 		ic.setPreco(BigDecimal.valueOf(27.8));
@@ -192,7 +222,7 @@ public class InsertDataForTesting {
 		itemCardapioRepository.save(ic);
 		
 		ic = new ItemCardapio();
-		ic.setCategoria("Sanduiche");
+		ic.setCategoria("Pizza");
 		ic.setDescricao("Cheedar com oba");
 		ic.setNome("Cheedar Cheedar");
 		ic.setPreco(BigDecimal.valueOf(2.8));
@@ -202,7 +232,7 @@ public class InsertDataForTesting {
 		itemCardapioRepository.save(ic);
 		
 		ic = new ItemCardapio();
-		ic.setCategoria("Sanduiche");
+		ic.setCategoria("Japonesa");
 		ic.setDescricao("Vegano");
 		ic.setNome("Vegano");
 		ic.setPreco(BigDecimal.valueOf(53.8));
