@@ -23,5 +23,9 @@ public class ItemPedido {
 	
 	private BigDecimal preco;
 	
+	public BigDecimal getPrecoCalculado() {
+		return preco.multiply(BigDecimal.valueOf(quantidade));
+	}
+	
 }
 
