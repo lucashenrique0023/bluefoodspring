@@ -13,9 +13,10 @@ import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 import br.com.softblue.bluefood.domain.pagamento.DadosCartao;
+import br.com.softblue.bluefood.domain.pagamento.Pagamento;
+import br.com.softblue.bluefood.domain.pagamento.PagamentoRepository;
 import br.com.softblue.bluefood.domain.pagamento.StatusPagamento;
 import br.com.softblue.bluefood.domain.pedido.Carrinho;
-import br.com.softblue.bluefood.domain.pagamento.DadosCartao;
 import br.com.softblue.bluefood.domain.pedido.ItemPedido;
 import br.com.softblue.bluefood.domain.pedido.ItemPedidoPK;
 import br.com.softblue.bluefood.domain.pedido.ItemPedidoRepository;
@@ -28,10 +29,13 @@ import br.com.softblue.bluefood.util.SecurityUtils;
 public class PedidoService {
 	
 	@Autowired
-	PedidoRepository pedidoRepository;
+	private PedidoRepository pedidoRepository;
 	
 	@Autowired
-	ItemPedidoRepository itemPedidoRepository;
+	private ItemPedidoRepository itemPedidoRepository;
+	
+	@Autowired
+	private PagamentoRepository pagamentoRepository;
 	
 	@Value("${bluefood.sbpay.url}")
 	private String sbPayUrl;
@@ -42,6 +46,8 @@ public class PedidoService {
 	@SuppressWarnings("unchecked")
 	@Transactional(rollbackFor = PagamentoException.class) // Se uma excecao do PagamentoException for lancada, tera um rollback.
 	public Pedido criarEPagar(Carrinho carrinho, String numCartao) throws PagamentoException {
+		
+		// -- CRIANDO PEDIDO -- //
 		
 		Pedido pedido = new Pedido();
 		pedido.setData(LocalDateTime.now());
@@ -61,6 +67,8 @@ public class PedidoService {
 			itemPedido.setId(new ItemPedidoPK(pedido, ordem++));
 			itemPedidoRepository.save(itemPedido);	
 		}
+		
+		// -- AUTORIZANDO PEDIDO -- //
 		
 		DadosCartao dadosCartao = new DadosCartao();
 		dadosCartao.setNumCartao(numCartao);
@@ -88,7 +96,15 @@ public class PedidoService {
 			if (statusPagamento != StatusPagamento.Autorizado) {
 				throw new PagamentoException(statusPagamento.getDescricao());
 			}
+			
+		// -- REGISTRANDO PAGAMENTO -- //
 		
+		Pagamento pagamento = new Pagamento();
+		pagamento.setData(LocalDateTime.now());
+		pagamento.setPedido(pedido);
+		pagamento.definirNumeroEBandeira(numCartao);
+		
+		pagamentoRepository.save(pagamento);
 		
 		return pedido;
 	}
