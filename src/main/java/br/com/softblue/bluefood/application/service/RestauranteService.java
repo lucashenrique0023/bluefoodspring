@@ -9,6 +9,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import br.com.softblue.bluefood.domain.cliente.Cliente;
 import br.com.softblue.bluefood.domain.cliente.ClienteRepository;
+import br.com.softblue.bluefood.domain.restaurante.ItemCardapio;
+import br.com.softblue.bluefood.domain.restaurante.ItemCardapioRepository;
 import br.com.softblue.bluefood.domain.restaurante.Restaurante;
 import br.com.softblue.bluefood.domain.restaurante.RestauranteComparator;
 import br.com.softblue.bluefood.domain.restaurante.RestauranteRepository;
@@ -27,6 +29,9 @@ public class RestauranteService {
 	
 	@Autowired
 	private ImageService imageService;
+	
+	@Autowired
+	private ItemCardapioRepository itemCardapioRepository;
 	
 	@Transactional
 	public void saveRestaurante(Restaurante restaurante) throws ValidationException {
@@ -97,5 +102,13 @@ public class RestauranteService {
 		restaurantes.sort(comparator);
 		
 		return restaurantes;
+	}
+	
+	@Transactional
+	public void saveItemCardapio(ItemCardapio itemCardapio) {
+		
+		itemCardapio = itemCardapioRepository.save(itemCardapio);
+		itemCardapio.setImagemFileName();
+		imageService.uploadComida(itemCardapio.getImagemFile(), itemCardapio.getImagem());
 	}
 }
