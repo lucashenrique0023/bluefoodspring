@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import br.com.softblue.bluefood.domain.cliente.Cliente;
 import br.com.softblue.bluefood.domain.restaurante.Restaurante;
 import br.com.softblue.bluefood.domain.usuario.Usuario;
+import br.com.softblue.bluefood.util.CollectionUtils;
 
 public class LoggedUser implements UserDetails {
 	
@@ -31,7 +32,7 @@ public class LoggedUser implements UserDetails {
 		}
 		
 		this.role = role;
-		this.roles = List.of(new SimpleGrantedAuthority("ROLE_" + role));
+		this.roles = CollectionUtils.listOf(new SimpleGrantedAuthority("ROLE_" + role));
 	}
 
 	@Override

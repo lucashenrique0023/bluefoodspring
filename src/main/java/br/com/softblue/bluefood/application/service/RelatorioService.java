@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,7 @@ import br.com.softblue.bluefood.domain.pedido.PedidoRepository;
 import br.com.softblue.bluefood.domain.pedido.RelatorioItemFaturamento;
 import br.com.softblue.bluefood.domain.pedido.RelatorioItemFilter;
 import br.com.softblue.bluefood.domain.pedido.RelatorioPedidoFilter;
+import br.com.softblue.bluefood.util.CollectionUtils;
 
 @Service
 public class RelatorioService {
@@ -27,14 +29,14 @@ public class RelatorioService {
 		
 		if (pedidoId != null) {
 			Pedido pedido =	pedidoRepository.findByIdAndRestaurante_Id(pedidoId, restauranteId);
-			return List.of(pedido);
+			return CollectionUtils.listOf(pedido);
 		}
 		
 		LocalDate dataInicial = filter.getDataInicial();
 		LocalDate dataFinal = filter.getDataFinal();
 		
 		if (dataInicial == null) {
-			return List.of();
+			return CollectionUtils.listOf();
 		}
 		
 		if (dataFinal == null) {
@@ -55,7 +57,7 @@ public class RelatorioService {
 		LocalDate dataFinal = filter.getDataFinal();
 		
 		if (dataInicial == null) {
-			return List.of();
+			return CollectionUtils.listOf();
 		}
 		
 		if (dataFinal == null) {

@@ -1,6 +1,7 @@
 package br.com.softblue.bluefood.infrastructure.web.controller;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import javax.validation.Valid;
 
@@ -63,7 +64,7 @@ public class RestauranteController {
 	@GetMapping(path ="/edit")
 	public String edit(Model model) {
 		Integer restauranteId = SecurityUtils.loggedRestaurante().getId();
-		Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow();
+		Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("restaurante", restaurante);
 		ControllerHelper.setEditMode(model, true);
 		ControllerHelper.addCategoriasToRequest(categoriaRestauranteRepository, model);
@@ -93,7 +94,7 @@ public class RestauranteController {
 	@GetMapping(path = "/comidas")
 	public String viewComidas(Model model) {
 		Integer restauranteId = SecurityUtils.loggedRestaurante().getId();
-		Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow();
+		Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("restaurante", restaurante);
 		model.addAttribute("itemCardapio", new ItemCardapio());
 		
@@ -120,7 +121,7 @@ public class RestauranteController {
 		
 		if (errors.hasErrors()) {
 			Integer restauranteId = SecurityUtils.loggedRestaurante().getId();
-			Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow();
+			Restaurante restaurante = restauranteRepository.findById(restauranteId).orElseThrow(NoSuchElementException::new);
 			model.addAttribute("restaurante", restaurante);
 			
 			List<ItemCardapio> itensCardapio = itemCardapioRepository.findByRestaurante_IdOrderByNome(restauranteId);
@@ -137,7 +138,7 @@ public class RestauranteController {
 	public String viewPedido(@RequestParam("pedidoId") Integer pedidoId,
 			Model model) {
 		
-		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
+		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("pedido", pedido);
 		
 		return "restaurante-pedido";
@@ -146,7 +147,7 @@ public class RestauranteController {
 	@PostMapping(path = "/pedido/proximoStatus")
 	public String proximoStatus(@RequestParam("pedidoId") Integer pedidoId, Model model) {
 		
-		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow();
+		Pedido pedido = pedidoRepository.findById(pedidoId).orElseThrow(NoSuchElementException::new);
 		model.addAttribute("pedido", pedido);
 		
 		
