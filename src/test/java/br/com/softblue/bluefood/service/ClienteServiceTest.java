@@ -1,4 +1,4 @@
-package br.com.softblue.bluefood.repository;
+package br.com.softblue.bluefood.service;
 
 import static org.assertj.core.api.Assertions.assertThatExceptionOfType;
 
